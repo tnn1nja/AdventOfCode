@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 #Read in File
-f = open("test.txt", "r")
+f = open("input.txt", "r")
 lines = f.readlines()
 f.close()
 
