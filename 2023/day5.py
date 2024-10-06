@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 #Read in File
 f = open("input.txt", "r")
 lines = f.readlines()
@@ -35,23 +33,25 @@ def mapValue(value, map):
     return value
 
 #Find Minimum Mapped Value
-def findMinMapped(inpValues):
-    mapsCompleted = 1
+def translateValue(value):
     for map in maps:
-        for i in range(len(inpValues)):
-            inpValues[i] = mapValue(inpValues[i], map)
-        print(f"Map Completed ({mapsCompleted}/7)")
-        mapsCompleted += 1
-    return min(inpValues)
+        value = mapValue(value, map)
+    return value
 
 #Calculate Part 1
-partOneAns = findMinMapped(deepcopy(values))
+partOneAns = 100000000000000000000000000
+for value in values:
+    newValue = translateValue(value)
+    if newValue < partOneAns:
+        partOneAns = newValue
 print(f"Part 1 Answer: {partOneAns}")
 
 #Calculate Part 2
-rangeValues = []
+partTwoAns = 100000000000000000000000000
 for i in range(0, len(values), 2):
     for j in range(values[i+1]):
-        rangeValues.append(values[i]+j)
-partTwoAns = findMinMapped(rangeValues)
+        newValue = translateValue(values[i]+j)
+        if newValue < partTwoAns:
+            partTwoAns = newValue
+    print(f"Value Range Complete, Current Minimum: {partTwoAns}")
 print(f"Part 2 Answer: {partTwoAns}")
