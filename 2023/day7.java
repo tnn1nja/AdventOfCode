@@ -4,11 +4,50 @@ import java.util.*;
 public class day7{
 
     //Constants
-    public static String fileName = "input.txt";   
-    public static int part = 2;
+    public static String fileName = "input.txt";
+
+    //Run Program
+    public static void main(String[] args){
+        
+        System.out.println("Part 1 Answer: " + calculateAnswer(1));
+        System.out.println("Part 2 Answer: " + calculateAnswer(2));
+        
+    }
+
+    //Calculate Answer
+    public static int calculateAnswer(int chosenPart){
+        
+        //Generate Lists
+        ArrayList<ArrayList<String[]>> handTypes = populateList(chosenPart);
+
+        //Sort Lists
+        HandComparator hc = new HandComparator(chosenPart);
+        for(int i = 0; i < handTypes.size(); i++){
+            Collections.sort(handTypes.get(i), hc);
+        }
+
+        //Find Answer
+        int total = 0;
+        int counter = 1;
+        for(ArrayList<String[]> handType: handTypes){
+            for(String[] s: handType){
+                total += Integer.valueOf(s[1]) * counter;
+                counter++;
+            }
+        }
+        return total;
+        
+    }
 
     //Populate Hand Types
-    public static void populateList( ArrayList<ArrayList<String[]>> handTypes){
+    public static ArrayList<ArrayList<String[]>> populateList(int part){
+
+        //Generate 3D List
+        ArrayList<ArrayList<String[]>> handTypes = 
+            new ArrayList<ArrayList<String[]>>();
+        for(int i = 0; i < 7; i++){
+            handTypes.add(new ArrayList<String[]>());
+        }
 
         //Read in File
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))){
@@ -27,6 +66,7 @@ public class day7{
                     }
                 }
 
+                //Morph Jacks
                 Integer jacks = -1;
                 boolean containsJack = false;
                 if(chars.containsKey('J') && part == 2){
@@ -34,7 +74,8 @@ public class day7{
                     chars.remove('J');
                     containsJack = true;
                 }
-                    
+
+                //Order Card Type Amounts
                 ArrayList<Integer> amounts = new ArrayList<Integer>();
                 for (Character c: chars.keySet()){
                     amounts.add(chars.get(c));
@@ -50,23 +91,23 @@ public class day7{
 
                 //Seperate Types
                 if (amounts.get(0) == 5){
-                    handTypes.get(6).add(hand); //fiveOfAKind
+                    handTypes.get(6).add(hand); //Five of a Kind
                 }else if (amounts.get(0) == 4){
-                    handTypes.get(5).add(hand); //fourOfAKind
+                    handTypes.get(5).add(hand); //Four of a Kind
                 }else if (amounts.get(0) == 3){
                     if (amounts.get(1) == 2){
-                        handTypes.get(4).add(hand); //fullHouse
+                        handTypes.get(4).add(hand); //Full House
                     }else{
-                        handTypes.get(3).add(hand); //threeOfAKind
+                        handTypes.get(3).add(hand); //Three of a Kind
                     }
                 }else if (amounts.get(0) == 2){
                     if(amounts.get(1) == 2){
-                        handTypes.get(2).add(hand); //twoPair
+                        handTypes.get(2).add(hand); //Two Pair
                     }else {
-                        handTypes.get(1).add(hand); //onePair
+                        handTypes.get(1).add(hand); //One Pair
                     }
                 }else {
-                    handTypes.get(0).add(hand); //highCard
+                    handTypes.get(0).add(hand); //High Card
                 }    
             }
 
@@ -75,46 +116,17 @@ public class day7{
             System.out.println("Failed to read file.");
             e.printStackTrace();
         }
+
+        return handTypes;
         
     }
-
-    
-    //Run
-    public static void main(String[] args){
-        
-        //Generate Lists
-        ArrayList<ArrayList<String[]>> handTypes = 
-            new ArrayList<ArrayList<String[]>>();
-        for(int i = 0; i < 7; i++){
-            handTypes.add(new ArrayList<String[]>());
-        }
-        populateList(handTypes);
-
-        //Sort Lists
-        HandComparator hc = new HandComparator();
-        for(int i = 0; i < handTypes.size(); i++){
-            Collections.sort(handTypes.get(i), hc);
-        }
-
-        int total = 0;
-        int counter = 1;
-        for(ArrayList<String[]> handType: handTypes){
-            for(String[] s: handType){
-                total += Integer.valueOf(s[1]) * counter;
-                counter++;
-            }
-        }
-
-        System.out.println("Part "+ part + " Answer: " + total);
-        
-    }
-
     
     //Hand Comparator
     static class HandComparator implements Comparator<String[]> {
 
         static HashMap<Character, Integer> values = new HashMap<Character, Integer>();
-        static{
+
+        public HandComparator(int part){
             values.put('2', 1);
             values.put('3', 2);
             values.put('4', 3);
