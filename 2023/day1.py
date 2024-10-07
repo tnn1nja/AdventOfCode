@@ -2,10 +2,25 @@ file = open("input.txt")
 array = file.readlines()
 file.close()
 
-total = 0
+partOneAns = 0
+partTwoAns = 0
+
+def findNum(string):
+    num = ""
+    for char in string:
+        if char.isdigit():
+            num+=char
+            break
+    for char in reversed(string):
+        if char.isdigit():
+            num+=char
+            break
+    return int(num)
 
 for string in array:
 
+    partOneAns += findNum(string)
+    
     string = string.replace("one", "o1e")
     string = string.replace("two", "t2o")
     string = string.replace("three", "t3e")
@@ -16,15 +31,7 @@ for string in array:
     string = string.replace("eight", "e8t")
     string = string.replace("nine", "n9e")
     
-    num = ""
-    for char in string:
-        if char.isdigit():
-            num+=char
-            break
-    for char in reversed(string):
-        if char.isdigit():
-            num+=char
-            break
-    total = int(num)
+    partTwoAns += findNum(string)
 
-print(total)
+print(f"Part 1 Answer: {partOneAns}")
+print(f"Part 2 Answer: {partTwoAns}")
