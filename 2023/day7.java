@@ -1,10 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-public class day7p1{
+public class day7{
 
     //Constants
-    public static String fileName = "input.txt";    
+    public static String fileName = "input.txt";   
+    public static int part = 2;
 
     //Populate Hand Types
     public static void populateList( ArrayList<ArrayList<String[]>> handTypes){
@@ -26,11 +27,26 @@ public class day7p1{
                     }
                 }
 
+                Integer jacks = -1;
+                boolean containsJack = false;
+                if(chars.containsKey('J') && part == 2){
+                    jacks = chars.get('J');
+                    chars.remove('J');
+                    containsJack = true;
+                }
+                    
                 ArrayList<Integer> amounts = new ArrayList<Integer>();
                 for (Character c: chars.keySet()){
                     amounts.add(chars.get(c));
                 }
                 Collections.sort(amounts, Collections.reverseOrder());
+                if(containsJack && part == 2){
+                    if (amounts.size() > 0){
+                        amounts.set(0, amounts.get(0) + jacks); 
+                    }else {
+                        amounts.add(5);
+                    }
+                }
 
                 //Seperate Types
                 if (amounts.get(0) == 5){
@@ -62,14 +78,6 @@ public class day7p1{
         
     }
 
-    //Output Hand Type
-    public static void printHandType(ArrayList<String[]> handType){
-        for(String[] s: handType){
-            System.out.print(Arrays.toString(s) + " ");
-        }
-        System.out.print("\n");
-    }
-
     
     //Run
     public static void main(String[] args){
@@ -86,7 +94,6 @@ public class day7p1{
         HandComparator hc = new HandComparator();
         for(int i = 0; i < handTypes.size(); i++){
             Collections.sort(handTypes.get(i), hc);
-            printHandType(handTypes.get(i));
         }
 
         int total = 0;
@@ -98,7 +105,7 @@ public class day7p1{
             }
         }
 
-        System.out.println("Part 1 Answer: " + total);
+        System.out.println("Part "+ part + " Answer: " + total);
         
     }
 
@@ -117,10 +124,14 @@ public class day7p1{
             values.put('8', 7);
             values.put('9', 8);
             values.put('T', 9);
-            values.put('J', 10);
             values.put('Q', 11);
             values.put('K', 12);
             values.put('A', 13);
+            if (part == 2){
+                values.put('J', 0);
+            }else {
+                values.put('J', 10);
+            }
         }
         
         public int compare(String[] h1, String[] h2) {
