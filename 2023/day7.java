@@ -86,6 +86,7 @@ public class day7{
         HandComparator hc = new HandComparator();
         for(int i = 0; i < handTypes.size(); i++){
             Collections.sort(handTypes.get(i), hc);
+            printHandType(handTypes.get(i));
         }
 
         int total = 0;
@@ -107,19 +108,19 @@ public class day7{
 
         static HashMap<Character, Integer> values = new HashMap<Character, Integer>();
         static{
-            values.put('A', 1);
-            values.put('2', 2);
-            values.put('3', 3);
-            values.put('4', 4);
-            values.put('5', 5);
-            values.put('6', 6);
-            values.put('7', 7);
-            values.put('8', 8);
-            values.put('9', 9);
-            values.put('T', 10);
-            values.put('J', 11);
-            values.put('Q', 12);
-            values.put('K', 13);
+            values.put('2', 1);
+            values.put('3', 2);
+            values.put('4', 3);
+            values.put('5', 4);
+            values.put('6', 5);
+            values.put('7', 6);
+            values.put('8', 7);
+            values.put('9', 8);
+            values.put('T', 9);
+            values.put('J', 10);
+            values.put('Q', 11);
+            values.put('K', 12);
+            values.put('A', 13);
         }
         
         public int compare(String[] h1, String[] h2) {
