@@ -1,14 +1,14 @@
 #Calculate if a report is valid (Part 1 & 2)
-def isValidReport(report, dampened=False, recursed=False):
+def isValidReport(report, allowRecursion):
     growing = report[0] < report[1]
     for i in range(len(report)-1):
         diff = abs(report[i]-report[i+1])
         if not ((report[i] < report[i+1]) == growing 
                 and diff < 4 and diff > 0):
-            if dampened and not recursed:
-                return isValidReport(stripIndex(report, i), True, True) or\
-                      isValidReport(stripIndex(report, i+1), True, True) or\
-                          (i == 1 and isValidReport(stripIndex(report, 0), True, True))
+            if allowRecursion:
+                return isValidReport(stripIndex(report, i), False) or\
+                      isValidReport(stripIndex(report, i+1), False) or\
+                          (i == 1 and isValidReport(stripIndex(report, 0), False))
             else:
                 return False
     return True
@@ -25,7 +25,7 @@ partTwoAns = 0
 with open("input.txt", "r") as file:
     for line in file:
         report = list(map(int, line.rstrip("\n").split(" ")))
-        if isValidReport(report):
+        if isValidReport(report, False):
             partOneAns += 1
             partTwoAns += 1
         elif isValidReport(report, True):
