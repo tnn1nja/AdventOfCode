@@ -3,7 +3,7 @@ import re
 #Calculate Multiples
 def findTotal(string):
     total = 0
-    for pair in re.findall(r"mul\(.?.?.,.?.?.\)", string):
+    for pair in re.findall(r"mul\(\d?\d?\d,\d?\d?\d\)", string):
         nums = pair.rstrip(")").lstrip("mul(").split(",")
         total += int(nums[0])*int(nums[1])
     return total
