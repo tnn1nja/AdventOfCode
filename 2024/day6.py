@@ -1,6 +1,5 @@
 from copy import deepcopy
 from math import floor
-import threading
 
 #Output Grid to Console
 def debugPrintGrid(grid):
@@ -66,7 +65,7 @@ def willLoop(grid):
 
 #Read in Grid From File
 cleanGrid = []
-with open("input.txt", "r") as f:
+with open("day6.txt", "r") as f:
     for l in f:
         cleanGrid.append([x for x in l.rstrip("\n")])
 
