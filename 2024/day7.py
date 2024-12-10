@@ -1,3 +1,4 @@
+#Find if Part One is Possible
 def isPossiblePartOne(values):
     for i in range(2**(len(values)-2)):
         perm = bin(i)[2:].zfill(len(values)-2)
@@ -11,6 +12,7 @@ def isPossiblePartOne(values):
             return values[0]
     return False
 
+#Convert Denary to Ternary
 def denaryToTernary(denary):
     if denary < 3:
         output = str(denary)
@@ -21,6 +23,7 @@ def denaryToTernary(denary):
             denary = denary//3
     return output
 
+#Find if Part Two is Possible
 def isPossiblePartTwo(values):
     for i in range(3**(len(values)-2)):
         perm = denaryToTernary(i).zfill(len(values)-2)
@@ -36,6 +39,7 @@ def isPossiblePartTwo(values):
             return values[0]
     return 
 
+#Calculate Answers
 partOneAns = 0
 partTwoAns = 0
 with open("input.txt", "r") as file:
@@ -48,5 +52,6 @@ with open("input.txt", "r") as file:
             if partOneResult:
                 partOneAns += partOneResult
 
+#Output
 print(f"Part One Answer: {partOneAns}")
 print(f"Part Two Answer: {partTwoAns}")
