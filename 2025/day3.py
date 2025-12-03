@@ -1,4 +1,4 @@
-def get_max_value(values, first_index, last_index):
+def get_max_single_value(values, first_index, last_index):
     max_value = 0
     max_value_index = 0
     for i in range(first_index, last_index):
@@ -8,24 +8,24 @@ def get_max_value(values, first_index, last_index):
             max_value_index = i
             if max_value == 9:
                 break
-    return max_value, max_value_index
+    return max_value, max_value_index+1
+
+def get_max_joined_value(values, length):
+    max_value = ""
+    first_index = 0
+    for i in range(length):
+        last_index = len(values)-(length-1-i)
+        value, first_index = get_max_single_value(bank, first_index, last_index)
+        max_value += str(value)
+    return int(max_value)
 
 part_one = 0
 part_two = 0
 with open("2025/input.txt", "r") as f:
     for bank in f:
         bank = bank.rstrip("\n")
-        first_value, first_index = get_max_value(bank, 0, len(bank)-1)  #0
-        second_value = get_max_value(bank, first_index+1, len(bank))[0] #1
-        part_one += int(f"{first_value}{second_value}")
-
-        long_joltage = ""
-        first_index = -1
-        for i in range(12):
-            value, first_index = get_max_value(bank, first_index+1, len(bank)-(11-i))
-            long_joltage += str(value)
-        part_two += int(long_joltage)
-
+        part_one += get_max_joined_value(bank, 2)
+        part_two += get_max_joined_value(bank, 12)
 
 print(f"Part One Answer: {part_one}")
 print(f"Part Two Answer: {part_two}")
