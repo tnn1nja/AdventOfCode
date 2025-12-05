@@ -17,8 +17,8 @@ for line in lines:
 ranges.sort(key=lambda x: x[0])
 i = 0
 while i < len(ranges)-1:
-    if ranges[i][0] <= ranges[i+1][0] <= ranges[i][1]:
-        ranges[i][1] = ranges[i+1][1]
+    if ranges[i][0] <= ranges[i+1][0] <= ranges[i][1]+1:
+        ranges[i][1] = max(ranges[i+1][1], ranges[i][1])
         ranges.pop(i+1)
     else:
         i+=1
@@ -34,5 +34,5 @@ part_two = 0
 for r in ranges:
     part_two += r[1]-r[0]+1
 
-print(f"Part One Answer: {part_one}") #690
+print(f"Part One Answer: {part_one}")
 print(f"Part Two Answer: {part_two}")
