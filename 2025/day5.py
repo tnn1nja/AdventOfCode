@@ -1,4 +1,4 @@
-with open("test.txt", "r") as f:
+with open("input.txt", "r") as f:
     lines = f.readlines()
 
 ranges = []
@@ -14,18 +14,25 @@ for line in lines:
     else:
         ids.append(int(line))
 
-def is_fresh(id):
-    for range in ranges:
-        if range[0] <= id <= range[1]:
-            return True
-    return False
+ranges.sort(key=lambda x: x[0])
+i = 0
+while i < len(ranges)-1:
+    if ranges[i][0] <= ranges[i+1][0] <= ranges[i][1]:
+        ranges[i][1] = ranges[i+1][1]
+        ranges.pop(i+1)
+    else:
+        i+=1
 
 part_one = 0
 for id in ids:
-    part_one += is_fresh(id)
+    for range in ranges:
+        if range[0] <= id <= range[1]:
+            part_one += 1
+            break
 
 part_two = 0
-#sort by starting id - collapse based on starting id
+for r in ranges:
+    part_two += r[1]-r[0]+1
 
-print(f"Part One Answer: {part_one}")
+print(f"Part One Answer: {part_one}") #690
 print(f"Part Two Answer: {part_two}")
