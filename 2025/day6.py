@@ -31,14 +31,14 @@ part_one = 0
 part_two = 0
 for calc in calcs:
     part_one += doCalc(calc)
-    new = []
+    part_two_calc = []
     for i in range(len(calc[0])):
         new_num = ""
         for old_num in calc[:-1]:
             new_num += old_num[i]
-        new.append(new_num)
-    new.append(calc[-1])
-    part_two += doCalc(new)
+        part_two_calc.append(new_num)
+    part_two_calc.append(calc[-1])
+    part_two += doCalc(part_two_calc)
 
 print(f"Part One Answer: {part_one}")
 print(f"Part Two Answer: {part_two}")
