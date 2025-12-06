@@ -11,13 +11,6 @@ with open("test.txt", "r") as f:
                 part_one_sums.append([line[i]])
 print(part_one_sums)
 
-part_two_sums = []
-for s in part_one_sums:
-    operator = s[-1]
-    new_sum = []
-    for operand in s[:-1]:
-        print(list(operand))    
-
 def doCalc(calc):
     operands = calc[:-1]
     if calc[-1] == "+":
