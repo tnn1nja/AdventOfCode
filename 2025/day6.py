@@ -1,3 +1,4 @@
+#Shared
 def doCalc(calc):
     operands = calc[:-1]
     if "+" in calc[-1]:
@@ -10,6 +11,7 @@ def doCalc(calc):
             total *= int(operand)
     return total
 
+#Input
 with open("input.txt", "r") as f:
     lines = f.readlines()
 
@@ -35,19 +37,18 @@ for s in sums:
 
 #Part 2
 for i in range(len(sums)):
-    new_sum = []
+    new = []
     for j in range(len(sums[i][0])):
         num = ""
         for n in sums[i][:-1]:
             num += n[j]
-        new_sum.append(num)
-    new_sum.append(sums[i][-1])
-    sums[i] = new_sum
+        new.append(num)
+    new.append(sums[i][-1])
+    sums[i] = new
 
 part_two = 0
 for s in sums:
     part_two += doCalc(s)
-
 
 #Output
 print(f"Part One Answer: {part_one}")
