@@ -36,15 +36,15 @@ for s in sums:
     part_one += doCalc(s)
 
 #Part 2
-for i in range(len(sums)):
+for s in range(len(sums)):
     new = []
-    for j in range(len(sums[i][0])):
+    for c in range(len(sums[s][0])):
         num = ""
-        for n in sums[i][:-1]:
-            num += n[j]
+        for n in sums[s][:-1]:
+            num += n[c]
         new.append(num)
-    new.append(sums[i][-1])
-    sums[i] = new
+    new.append(sums[s][-1])
+    sums[s] = new
 
 part_two = 0
 for s in sums:
