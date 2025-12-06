@@ -1,32 +1,3 @@
-with open("input.txt", "r") as f:
-    lines = f.readlines()
-
-part_one_sums = [[]]
-for collumn in range(len(lines[0])-1):
-    only_spaces = True
-    for row in range(len(lines)):
-        char = lines[row][collumn]
-        if char != " ": 
-            only_spaces = False
-        if len(part_one_sums[-1]) > row:
-            part_one_sums[-1][row] += char
-        else:
-            part_one_sums[-1].append(char)
-    if only_spaces:
-        part_one_sums[-1] = [x[:-1] for x in part_one_sums[-1]]
-        part_one_sums.append([])
-
-part_two_sums = []
-for old_sum in part_one_sums:
-    new_sum = []
-    for i in range(len(old_sum[0])):
-        num = ""
-        for n in old_sum[:-1]:
-            num += n[i]
-        new_sum.append(num)
-    new_sum.append(old_sum[-1])
-    part_two_sums.append(new_sum)
-
 def doCalc(calc):
     operands = calc[:-1]
     if "+" in calc[-1]:
@@ -39,13 +10,45 @@ def doCalc(calc):
             total *= int(operand)
     return total
 
+with open("input.txt", "r") as f:
+    lines = f.readlines()
+
+#Part 1
+sums = [[]]
+for collumn in range(len(lines[0])-1):
+    only_spaces = True
+    for row in range(len(lines)):
+        char = lines[row][collumn]
+        if char != " ": 
+            only_spaces = False
+        if len(sums[-1]) > row:
+            sums[-1][row] += char
+        else:
+            sums[-1].append(char)
+    if only_spaces:
+        sums[-1] = [x[:-1] for x in sums[-1]]
+        sums.append([])
+
 part_one = 0
-for s in part_one_sums:
+for s in sums:
     part_one += doCalc(s)
 
+#Part 2
+for i in range(len(sums)):
+    new_sum = []
+    for j in range(len(sums[i][0])):
+        num = ""
+        for n in sums[i][:-1]:
+            num += n[j]
+        new_sum.append(num)
+    new_sum.append(sums[i][-1])
+    sums[i] = new_sum
+
 part_two = 0
-for s in part_two_sums:
+for s in sums:
     part_two += doCalc(s)
 
+
+#Output
 print(f"Part One Answer: {part_one}")
 print(f"Part Two Answer: {part_two}")
