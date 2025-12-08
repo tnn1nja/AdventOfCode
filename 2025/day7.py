@@ -1,26 +1,35 @@
-with open("input.txt", "r") as f:
-    processed = 0
+class Beam_Tracker:
+    __beams = {}
     splits = 0
-    first_index = f.readline().index("S")
-    beams = {first_index}
-    quantum_beams = [first_index]
+
+    def add(self, beam_index, value=1):
+        if beam_index in self.__beams:
+            self.__beams[beam_index] += value
+        else:
+            self.__beams[beam_index] = value
+
+    def split(self, beam_index):
+        timelines = self.__beams.pop(beam_index)
+        self.add(beam_index+1, timelines)
+        self.add(beam_index-1, timelines)
+        self.splits += 1
+
+    def get_beams_indexes(self):
+        return [x for x in self.__beams.keys()]
+
+    def get_splits(self):
+        return self.splits
+
+    def get_timelines(self):
+        return sum(self.__beams.values())
+
+beams = Beam_Tracker()
+with open("input.txt", "r") as f:
+    beams.add(f.readline().index("S"))
     for line in f:
-        for beam in [x for x in beams]:
-            if line[beam] == "^":
-                splits += 1
-                beams.remove(beam)
-                if beam+1 < len(line):
-                    beams.add(beam+1)
-                if beam-1 > -1:
-                    beams.add(beam-1)
-        for beam in [x for x in quantum_beams]:
-            if line[beam] == "^":
-                quantum_beams.remove(beam)
-                if beam+1 < len(line):
-                    quantum_beams.append(beam+1)
-                if beam-1 > -1:
-                    quantum_beams.append(beam-1)
-        processed += 1
-        print(f"Processed: {processed}/142")
-    print(f"Part One Answer: {splits}")
-    print(f"Part Two Answer: {len(quantum_beams)}")
+        for beam_index in beams.get_beams_indexes():
+            if line[beam_index] == "^":
+                beams.split(beam_index)
+
+print(f"Part One Answer: {beams.get_splits()}")
+print(f"Part Two Answer: {beams.get_timelines()}")
